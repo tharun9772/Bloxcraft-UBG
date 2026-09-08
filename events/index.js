@@ -54,6 +54,16 @@ async function loadEvents() {
   renderEvents();
 }
 
+function escapeHtml(str) {
+  return String(str ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[c]));
+}
+
 function renderEvents() {
   eventsDiv.innerHTML = "";
 
@@ -62,11 +72,11 @@ function renderEvents() {
     card.className = "event";
 
     card.innerHTML = `
-      <img class="banner" src="${event.img}">
+      <img class="banner" src="${escapeHtml(event.img)}">
       <div class="overlay"></div>
       <div class="content">
-        <h2>${event.name}</h2>
-        <div class="tag">${event.type}</div>
+        <h2>${escapeHtml(event.name)}</h2>
+        <div class="tag">${escapeHtml(event.type)}</div>
       </div>
     `;
 
@@ -127,36 +137,36 @@ function renderEditor() {
     const div = document.createElement("div");
     div.className = "editor-item";
 
-    div.innerHTML = `
-      <input
-        value="${event.name || ""}"
-        placeholder="Name"
-        onchange="EVENTS[${index}].name = this.value"
-      >
+    const nameInput = document.createElement("input");
+    nameInput.placeholder = "Name";
+    nameInput.value = event.name || "";
+    nameInput.onchange = (e) => { EVENTS[index].name = e.target.value; };
 
-      <input
-        value="${event.img || ""}"
-        placeholder="Image"
-        onchange="EVENTS[${index}].img = this.value"
-      >
+    const imgInput = document.createElement("input");
+    imgInput.placeholder = "Image";
+    imgInput.value = event.img || "";
+    imgInput.onchange = (e) => { EVENTS[index].img = e.target.value; };
 
-      <select onchange="EVENTS[${index}].type = this.value">
-        <option ${event.type === "URL" ? "selected" : ""}>URL</option>
-        <option ${event.type === "TOPURL" ? "selected" : ""}>TOPURL</option>
-        <option ${event.type === "URLPOPUP" ? "selected" : ""}>URLPOPUP</option>
-      </select>
+    const typeSelect = document.createElement("select");
+    ["URL", "TOPURL", "URLPOPUP"].forEach((opt) => {
+      const option = document.createElement("option");
+      option.value = opt;
+      option.textContent = opt;
+      option.selected = event.type === opt;
+      typeSelect.appendChild(option);
+    });
+    typeSelect.onchange = (e) => { EVENTS[index].type = e.target.value; };
 
-      <input
-        value="${event.url || ""}"
-        placeholder="URL"
-        onchange="EVENTS[${index}].url = this.value"
-      >
+    const urlInput = document.createElement("input");
+    urlInput.placeholder = "URL";
+    urlInput.value = event.url || "";
+    urlInput.onchange = (e) => { EVENTS[index].url = e.target.value; };
 
-      <button onclick="EVENTS.splice(${index}, 1); renderEditor();">
-        Delete
-      </button>
-    `;
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.onclick = () => { EVENTS.splice(index, 1); renderEditor(); };
 
+    div.append(nameInput, imgInput, typeSelect, urlInput, deleteBtn);
     editor.appendChild(div);
   });
 }
