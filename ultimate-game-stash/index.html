@@ -1971,16 +1971,17 @@ const files = [
                         btn.type = 'button';
                         btn.value = file;
                         btn.onclick = () => {
-                            fetch(`https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/${file}.html?t=${Date.now()}`)
-                                .then(response => response.text())
-                                .then(text => {
-                                    const newWin = window.open("about:blank", "_blank");
-                                    if (newWin) {
-                                        newWin.document.open();
-                                        newWin.document.write(text);
-                                        newWin.document.close();
-                                    }
-                                });
+                            const safeFile = encodeURIComponent(file);
+                            // Navigate directly to the CDN resource instead of fetching it and
+                            // writing the raw response into the app's own document. This keeps
+                            // any content served from cdn.jsdelivr.net executing in its own
+                            // origin (with noopener/noreferrer) instead of the application's
+                            // origin, even if the upstream repo/CDN content is compromised.
+                            window.open(
+                                `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/${safeFile}.html`,
+                                "_blank",
+                                "noopener,noreferrer"
+                            );
                         };
                         btn.style.width = '100%';
                         btn.style.height = '100%';
