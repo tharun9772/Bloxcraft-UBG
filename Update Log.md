@@ -1,6 +1,12 @@
 # UPDATE LOG
 Update LOG from `October 14, 2026` to `today`!
 
+November 17, 2026:<br>
+**• (ESM Edition Only) FIx Everything To ESM Edition (And Some Things May Be Proxied Now)**
+<br>
+<br>
+<br>
+
 October 14, 2026:<br>
 **• Added Google Translate to home page, terms of service and privacy policy**
 <br>
