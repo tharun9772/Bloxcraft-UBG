@@ -1,6 +1,24 @@
 (function() {
     'use strict';
 
+    try {
+        const adKey = localStorage.getItem("bloxcraftstudiosadskey");
+        if (adKey !== "false") {
+            const adScript = document.createElement('script');
+            adScript.async = true;
+            adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2908733461969158";
+            adScript.crossOrigin = "anonymous";
+            document.head.appendChild(adScript);
+        }
+    } catch (err) {
+        console.error("Could not access or write to localStorage for AdSense initialization:", err);
+        const adScript = document.createElement('script');
+        adScript.async = true;
+        adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2908733461969158";
+        adScript.crossOrigin = "anonymous";
+        document.head.appendChild(adScript);
+    }
+
     const originalTitle = document.title;
     const faviconLinkQuery = 'link[rel="icon"], link[rel="shortcut icon"], link[rel~="icon"]';
     const getFaviconLink = () => document.querySelector(faviconLinkQuery) || document.querySelector("link[rel*='icon']");
