@@ -18,7 +18,7 @@
 
 **The Catch?**
 
-• Ads (You can disable them but keep on to support Tharun9772)<br>
+• Ads (You can disable them but keep on to support Tharun9772), BUTTTT PLEASE KEEP EM ON TO GIVE ME MONEY :(<br>
 • This Is Not Updated A Lot<br>
 • Proxies May Not Work 10% Of The Time (Click Reload Proxy To See IF That Fixes It)
 
